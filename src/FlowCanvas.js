@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import "./styles.css";
 
+let loop = null;
+let particles = [[100, 100]];
+
 export default function FlowCanvas(props) {
-  let particles = [[100, 100]];
   const canvasRef = useRef(null);
+  const dt = 2.5;
 
   const addParticle = (xy, delta) => {
     particles.push([
@@ -32,7 +35,6 @@ export default function FlowCanvas(props) {
   };
 
   const advance = (xy) => {
-    const dt = 2.5;
     var ddt0 = ddt(xy);
     var ddt1 = ddt([xy[0] + (ddt0[0] * dt) / 2, xy[1] + (ddt0[1] * dt) / 2]);
     xy[0] += ddt1[0] * dt;
@@ -44,7 +46,7 @@ export default function FlowCanvas(props) {
       advance(particles[i]);
     }
     particles = particles.filter(
-      (xy, i, arr) =>
+      (xy) =>
         isFinite(xy[0]) &&
         isFinite(xy[1]) &&
         xy[0] > -props.width * 0.2 &&
@@ -54,7 +56,7 @@ export default function FlowCanvas(props) {
     );
     for (var i = 0; i < props.vortices.length; ++i) {
       if (props.vortices[i][3] == "source" && props.vortices[i][2] < 0) {
-        particles = particles.filter((xy, j, arr) => {
+        particles = particles.filter((xy) => {
           var dx = xy[0] - props.vortices[i][0];
           var dy = xy[1] - props.vortices[i][1];
           return dx * dx + dy * dy > -150 * dt * props.vortices[i][2];
@@ -66,7 +68,7 @@ export default function FlowCanvas(props) {
       y < props.height * 1.2;
       y += props.spacing
     ) {
-      addParticle([0, y], 1.0);
+      addParticle([0, y], 2.0);
     }
     for (var i = 0; i < props.vortices.length; ++i) {
       if (props.vortices[i][3] == "source" && props.vortices[i][2] > 0) {
@@ -100,9 +102,9 @@ export default function FlowCanvas(props) {
       ctx.fillRect(xy[0] - 1, xy[1] - 1, 3, 3);
     }
     ctx.fillStyle = "#00FF00";
-    /*let xy = props.vortices[iSelect];
+    let xy = props.vortices[props.iselect];
     ctx.fillRect(xy[0] - 2, xy[1] - 2, 5, 5);
-    */
+
     const canvas = canvasRef.current;
     const ctx1 = canvas.getContext("2d");
     ctx1.clearRect(0, 0, props.width, props.height);
@@ -110,11 +112,12 @@ export default function FlowCanvas(props) {
   };
 
   useEffect(() => {
-    setInterval(() => {
+    if (loop != null) clearInterval(loop);
+    loop = setInterval(() => {
       computeMain();
       drawMain();
     }, 40);
-  });
+  }, [props]);
 
   return <canvas ref={canvasRef} {...props} />;
 }

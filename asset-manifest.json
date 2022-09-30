@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/flowbuilder2/static/css/main.fc5c2c69.css",
+    "main.js": "/flowbuilder2/static/js/main.2c8d3d03.js",
+    "index.html": "/flowbuilder2/index.html",
+    "main.fc5c2c69.css.map": "/flowbuilder2/static/css/main.fc5c2c69.css.map",
+    "main.2c8d3d03.js.map": "/flowbuilder2/static/js/main.2c8d3d03.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fc5c2c69.css",
+    "static/js/main.2c8d3d03.js"
+  ]
+}

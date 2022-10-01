@@ -16,7 +16,7 @@ export default function VortexControl(props) {
 
   const changeStrength = (event) => {
     let vortices = [...props.vortices];
-    vortices[props.selected][2] = event.target.value;
+    vortices[props.selected][2] = Math.max(-1, Math.min(1, event.target.value));
     props.setvortices(vortices);
   };
 
@@ -35,6 +35,7 @@ export default function VortexControl(props) {
   const remove = () => {
     let vortices = [...props.vortices];
     vortices.splice(props.selected, 1);
+    console.log(props.selected, vortices.length);
     props.setvortices(vortices);
   };
 
@@ -55,6 +56,9 @@ export default function VortexControl(props) {
                 props.setselected(iVortex);
               }}
               onClick={() => {
+                props.setselected(iVortex);
+              }}
+              onTouchStart={() => {
                 props.setselected(iVortex);
               }}
             >
@@ -84,8 +88,8 @@ export default function VortexControl(props) {
                   step={0.001}
                   value={vortex[2]}
                   onChange={changeStrength}
-                  min={-2}
-                  max={2}
+                  min={-1}
+                  max={1}
                   readOnly={iVortex != props.selected}
                 />
               </td>
@@ -127,22 +131,6 @@ export default function VortexControl(props) {
           ))}
         </tbody>
       </table>
-      <datalist id="types">
-        <option value="vortex" />
-        <option value="source" />
-      </datalist>
     </div>
   );
-  /*
-  return (
-    <DataTable
-      className="container"
-      keys={["site"]}
-      columns={columns}
-      initialData={data}
-      initialPageLength={5}
-      initialSortBy={{ prop: "site", order: "desc" }}
-      pageLengthOptions={[5, 20, 50]}
-    />
-  );*/
 }

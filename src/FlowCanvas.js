@@ -6,7 +6,7 @@ let particles = [[100, 100]];
 
 export default function FlowCanvas(props) {
   const canvasRef = useRef(null);
-  const dt = 2.5;
+  const dt = 1.5;
 
   const addParticle = (xy, delta) => {
     particles.push([

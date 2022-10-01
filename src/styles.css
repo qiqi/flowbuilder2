@@ -2,3 +2,20 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+table,
+th,
+td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+tr.notselected {
+  background-color: #eeeedd;
+  cursor: pointer;
+}
+
+tr.selected {
+  background-color: #eeffff;
+  cursor: pointer;
+}

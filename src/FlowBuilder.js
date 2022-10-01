@@ -1,15 +1,14 @@
 import { useState } from "react";
 import FlowCanvas from "./FlowCanvas";
-import FlowController from "./FlowController";
+import VortexControl from "./VortexControl";
+import FreestreamControl from "./FreestreamControl";
 import "./styles.css";
 
 export default function FlowBuilder() {
-  const [vortices, setVortices] = useState([
-    [500, 400, 2, "vortex"],
-    [500, 200, 1, "source"],
-    [500, 600, -1, "source"],
-  ]);
+  const [vortices, setVortices] = useState([[500, 400, 1, "vortex"]]);
   const [selected, setSelected] = useState(0);
+  const [uv, setuv] = useState([1.0, 0.0]);
+  const [delta, setdelta] = useState(0.0);
   const canvasSize = [1080, 800];
 
   return (
@@ -17,23 +16,44 @@ export default function FlowBuilder() {
       <table>
         <tbody>
           <tr>
-            <td>
-              <h2>Start editing to see some magic happen!</h2>
-              <FlowCanvas
-                width={canvasSize[0]}
-                height={canvasSize[1]}
-                spacing={20}
-                u0={[1.0, 0.0]}
-                vortices={vortices}
-                iselect={selected}
-              />
+            <td rowSpan={2}>
+              <img src="qi.jpg" />
             </td>
             <td>
-              <FlowController
+              <VortexControl
                 vortices={vortices}
                 selected={selected}
                 setvortices={setVortices}
                 setselected={setSelected}
+                width={canvasSize[0]}
+                height={canvasSize[1]}
+              />
+            </td>
+            <td rowSpan={2}>
+              <img src="qi.jpg" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <FreestreamControl
+                uv={uv}
+                setuv={setuv}
+                delta={delta}
+                setdelta={setdelta}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={3}>
+              <FlowCanvas
+                width={canvasSize[0]}
+                height={canvasSize[1]}
+                uv={uv}
+                spacing={20}
+                u0={[1.0, 0.0]}
+                vortices={vortices}
+                iselect={selected}
+                delta={delta}
               />
             </td>
           </tr>

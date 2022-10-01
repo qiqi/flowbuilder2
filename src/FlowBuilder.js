@@ -9,7 +9,8 @@ export default function FlowBuilder() {
   const [selected, setSelected] = useState(0);
   const [uv, setuv] = useState([1.0, 0.0]);
   const [delta, setdelta] = useState(0.0);
-  const canvasSize = [1080, 800];
+  const [airfoil, setairfoil] = useState("0012");
+  const canvasSize = [1280, 720];
 
   return (
     <div className="FlowBuilder">
@@ -40,6 +41,8 @@ export default function FlowBuilder() {
                 setuv={setuv}
                 delta={delta}
                 setdelta={setdelta}
+                airfoil={airfoil}
+                setairfoil={setairfoil}
               />
             </td>
           </tr>
@@ -54,6 +57,7 @@ export default function FlowBuilder() {
                 vortices={vortices}
                 iselect={selected}
                 delta={delta}
+                airfoil={airfoil}
               />
             </td>
           </tr>

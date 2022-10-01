@@ -96,14 +96,14 @@ export default function FlowCanvas(props) {
       let xy = particles[i];
       ctx.fillRect(xy[0], xy[1], 1, 1);
     }
-    ctx.fillStyle = "#FF0000";
+    ctx.fillStyle = "#880000";
     for (var i = 0; i < props.vortices.length; ++i) {
       let xy = props.vortices[i];
       ctx.fillRect(xy[0] - 1, xy[1] - 1, 3, 3);
     }
-    ctx.fillStyle = "#00FF00";
+    ctx.fillStyle = "#008800";
     let xy = props.vortices[props.iselect];
-    ctx.fillRect(xy[0] - 2, xy[1] - 2, 5, 5);
+    ctx.fillRect(xy[0] - 3, xy[1] - 3, 7, 7);
 
     const canvas = canvasRef.current;
     const ctx1 = canvas.getContext("2d");

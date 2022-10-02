@@ -16,7 +16,10 @@ export default function VortexControl(props) {
 
   const changeStrength = (event) => {
     let vortices = [...props.vortices];
-    vortices[props.selected][2] = Math.max(-1, Math.min(1, event.target.value));
+    vortices[props.selected][2] = Math.max(
+      -100,
+      Math.min(100, event.target.value)
+    );
     props.setvortices(vortices);
   };
 
@@ -85,26 +88,18 @@ export default function VortexControl(props) {
               <td>
                 <input
                   type="number"
-                  step={0.001}
                   value={vortex[2]}
                   onChange={changeStrength}
-                  min={-1}
-                  max={1}
+                  min={-100}
+                  max={100}
                   readOnly={iVortex != props.selected}
                 />
               </td>
               <td>
-                {vortex[3] == "vortex" ? (
-                  <select onChange={changeType}>
-                    <option value="vortex">vortex</option>
-                    <option value="source">source</option>
-                  </select>
-                ) : (
-                  <select onChange={changeType}>
-                    <option value="source">source</option>
-                    <option value="vortex">vortex</option>
-                  </select>
-                )}
+                <select value={vortex[3]} onChange={changeType}>
+                  <option value="vortex">vortex</option>
+                  <option value="source">source</option>
+                </select>
               </td>
               <td>
                 {" "}

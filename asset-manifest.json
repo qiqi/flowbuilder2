@@ -1,13 +1,20 @@
 {
   "files": {
-    "main.css": "/flowbuilder2/static/css/main.fc5c2c69.css",
-    "main.js": "/flowbuilder2/static/js/main.2c8d3d03.js",
+    "main.css": "/flowbuilder2/static/css/main.24ea3f84.chunk.css",
+    "main.js": "/flowbuilder2/static/js/main.3390dd3f.chunk.js",
+    "main.js.map": "/flowbuilder2/static/js/main.3390dd3f.chunk.js.map",
+    "runtime-main.js": "/flowbuilder2/static/js/runtime-main.327c207a.js",
+    "runtime-main.js.map": "/flowbuilder2/static/js/runtime-main.327c207a.js.map",
+    "static/js/2.46324fe9.chunk.js": "/flowbuilder2/static/js/2.46324fe9.chunk.js",
+    "static/js/2.46324fe9.chunk.js.map": "/flowbuilder2/static/js/2.46324fe9.chunk.js.map",
     "index.html": "/flowbuilder2/index.html",
-    "main.fc5c2c69.css.map": "/flowbuilder2/static/css/main.fc5c2c69.css.map",
-    "main.2c8d3d03.js.map": "/flowbuilder2/static/js/main.2c8d3d03.js.map"
+    "static/css/main.24ea3f84.chunk.css.map": "/flowbuilder2/static/css/main.24ea3f84.chunk.css.map",
+    "static/js/2.46324fe9.chunk.js.LICENSE.txt": "/flowbuilder2/static/js/2.46324fe9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/css/main.fc5c2c69.css",
-    "static/js/main.2c8d3d03.js"
+    "static/js/runtime-main.327c207a.js",
+    "static/js/2.46324fe9.chunk.js",
+    "static/css/main.24ea3f84.chunk.css",
+    "static/js/main.3390dd3f.chunk.js"
   ]
 }

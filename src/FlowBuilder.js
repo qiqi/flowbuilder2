@@ -5,12 +5,14 @@ import FreestreamControl from "./FreestreamControl";
 import "./styles.css";
 
 export default function FlowBuilder() {
-  const [vortices, setVortices] = useState([[500, 400, 1, "vortex"]]);
+  const canvasSize = [1280, 720];
+  const [vortices, setVortices] = useState([
+    [canvasSize[0] / 2, canvasSize[1] / 2, 100, "vortex"],
+  ]);
   const [selected, setSelected] = useState(0);
   const [uv, setuv] = useState([1.0, 0.0]);
   const [delta, setdelta] = useState(0.0);
-  const [airfoil, setairfoil] = useState("0012");
-  const canvasSize = [1280, 720];
+  const [airfoil, setairfoil] = useState("");
 
   return (
     <div className="FlowBuilder">

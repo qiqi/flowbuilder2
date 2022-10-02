@@ -44,7 +44,7 @@ export default function FreestreamControl(props) {
         />
       </p>
       <p>
-        {" NACA "}
+        {" naca "}
         <input
           type="text"
           value={props.airfoil}

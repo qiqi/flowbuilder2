@@ -25,11 +25,11 @@ export default function FlowCanvas(props) {
       let dy = (xy[1] - vort[1]) / 100;
       let r2 = dx * dx + dy * dy;
       if (vort[3] == "source") {
-        dxdt += (vort[2] * dx) / r2;
-        dydt += (vort[2] * dy) / r2;
+        dxdt += (vort[2] * dx) / 100 / r2;
+        dydt += (vort[2] * dy) / 100 / r2;
       } else {
-        dxdt += (vort[2] * dy) / r2;
-        dydt -= (vort[2] * dx) / r2;
+        dxdt += (vort[2] * dy) / 100 / r2;
+        dydt -= (vort[2] * dx) / 100 / r2;
       }
     }
     return [dxdt, dydt];
@@ -58,10 +58,12 @@ export default function FlowCanvas(props) {
     );
     for (let i = 0; i < props.vortices.length; ++i) {
       if (props.vortices[i][3] == "source" && props.vortices[i][2] < 0) {
+        const x0 = parseInt(props.vortices[i][0]);
+        const y0 = parseInt(props.vortices[i][1]);
         particles = particles.filter((xy) => {
-          let dx = xy[0] - props.vortices[i][0];
-          let dy = xy[1] - props.vortices[i][1];
-          return dx * dx + dy * dy > -150 * dt * props.vortices[i][2];
+          let dx = xy[0] - x0;
+          let dy = xy[1] - y0;
+          return dx * dx + dy * dy > -0.15 * dt * props.vortices[i][2];
         });
       }
     }
@@ -84,13 +86,16 @@ export default function FlowCanvas(props) {
     }
     for (let i = 0; i < props.vortices.length; ++i) {
       if (props.vortices[i][3] == "source" && props.vortices[i][2] > 0) {
-        let nj = Math.ceil((props.vortices[i][2] * 207) / props.spacing) * 3;
-        let rad0 = props.vortices[i][2] * 10 * dt;
+        const x0 = parseInt(props.vortices[i][0]);
+        const y0 = parseInt(props.vortices[i][1]);
+        let nj = Math.ceil((props.vortices[i][2] * 2.07) / props.spacing) * 3;
+        let rad0 = props.vortices[i][2] * 0.1 * dt;
         for (let j = 0; j < nj; ++j) {
           let rad = rad0 + (Math.random() - 0.5) * dt * 4;
-          let x = props.vortices[i][0] + rad * Math.cos((j * 2 * Math.PI) / nj);
-          let y = props.vortices[i][1] + rad * Math.sin((j * 2 * Math.PI) / nj);
-          addParticle([x, y], (0.5 * props.vortices[i][2]) / 10);
+          let x = x0 + rad * Math.cos((j * 2 * Math.PI) / nj);
+          let y = y0 + rad * Math.sin((j * 2 * Math.PI) / nj);
+          console.log(x, y);
+          addParticle([x, y], (0.5 * props.vortices[i][2]) / 1000);
         }
       }
     }
@@ -134,6 +139,7 @@ export default function FlowCanvas(props) {
   const airfoil = Airfoil(props.airfoil);
 
   const drawAirfoil = (ctx) => {
+    if (airfoil == null) return;
     const scale = props.width * 0.7;
     ctx.strokeStyle = "#888888";
     ctx.beginPath();
@@ -173,7 +179,7 @@ export default function FlowCanvas(props) {
     loop = setInterval(() => {
       computeMain();
       drawMain();
-    }, 40);
+    }, 30);
   }, [props]);
 
   return <canvas ref={canvasRef} {...props} />;

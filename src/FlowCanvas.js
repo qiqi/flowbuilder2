@@ -196,9 +196,37 @@ export default function FlowCanvas(props) {
     props.setmousestate([x, y, u, -v, p]);
   };
 
+  const click = (event) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width; // relationship bitmap vs. element for x
+    const scaleY = canvas.height / rect.height; // relationship bitmap vs. element for y
+    const x0 = (event.clientX - rect.left) * scaleX;
+    const y0 = (event.clientY - rect.top) * scaleY;
+    const noise = 0.0;
+    if (Math.random() < 0.5) {
+      const side = 10;
+      for (let i = -side; i < side; i++) {
+        addParticle([x0 - side, y0 + i], noise);
+        addParticle([x0 + side, y0 + i], noise);
+        addParticle([x0 + i, y0 - side], noise);
+        addParticle([x0 + i, y0 + side], noise);
+      }
+    } else {
+      const side = 14;
+      for (let i = 0; i < side; i++) {
+        addParticle([x0 - i, y0 - side + i], noise);
+        addParticle([x0 + i, y0 - side + i], noise);
+        addParticle([x0 - i, y0 + side - i], noise);
+        addParticle([x0 + i, y0 + side - i], noise);
+      }
+    }
+  };
+
   return (
     <canvas
       ref={canvasRef}
+      onClick={click}
       onMouseMove={mousemove}
       onMouseLeave={() => {
         props.setmousestate([]);

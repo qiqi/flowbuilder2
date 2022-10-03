@@ -1,0 +1,17 @@
+{
+  "name": "Two-dimensional Incompressible Potential Flow Builder",
+  "short_name": "FlowBuilder",
+  "description": "Two-dimensional Incompressible Potential Flow Builder",
+  "start_url": "./index.html",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "18x18",
+      "type": "image/ico"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "landscape"
+}

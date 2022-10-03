@@ -182,5 +182,29 @@ export default function FlowCanvas(props) {
     }, 30);
   }, [props]);
 
-  return <canvas ref={canvasRef} {...props} />;
+  const mousemove = (event) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width; // relationship bitmap vs. element for x
+    const scaleY = canvas.height / rect.height; // relationship bitmap vs. element for y
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
+    const [u, v] = ddt([x, y]);
+    const p =
+      0.5 *
+      (props.uv[0] * props.uv[0] + props.uv[1] * props.uv[1] - u * u - v * v);
+    props.setmousestate([x, y, u, v, p]);
+  };
+
+  return (
+    <canvas
+      ref={canvasRef}
+      onMouseMove={mousemove}
+      onMouseLeave={() => {
+        props.setmousestate([]);
+      }}
+      width={props.width}
+      height={props.height}
+    />
+  );
 }

@@ -33,7 +33,7 @@ export default function FlowBuilder() {
                 width={canvasSize[0]}
                 height={canvasSize[1]}
               />
-            </td>{" "}
+            </td>
             <td rowSpan={2} width="100px" valign="bottom">
               <FlowDisplay mousestate={mousestate} />
             </td>

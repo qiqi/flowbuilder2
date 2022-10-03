@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/flowbuilder2/static/css/main.73bd74b9.css",
-    "main.js": "/flowbuilder2/static/js/main.829155f5.js",
+    "main.js": "/flowbuilder2/static/js/main.0c59ce78.js",
     "index.html": "/flowbuilder2/index.html",
     "main.73bd74b9.css.map": "/flowbuilder2/static/css/main.73bd74b9.css.map",
-    "main.829155f5.js.map": "/flowbuilder2/static/js/main.829155f5.js.map"
+    "main.0c59ce78.js.map": "/flowbuilder2/static/js/main.0c59ce78.js.map"
   },
   "entrypoints": [
     "static/css/main.73bd74b9.css",
-    "static/js/main.829155f5.js"
+    "static/js/main.0c59ce78.js"
   ]
 }

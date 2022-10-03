@@ -2,6 +2,7 @@ import { useState } from "react";
 import FlowCanvas from "./FlowCanvas";
 import VortexControl from "./VortexControl";
 import FreestreamControl from "./FreestreamControl";
+import FlowDisplay from "./FlowDisplay";
 import "./styles.css";
 
 export default function FlowBuilder() {
@@ -13,6 +14,7 @@ export default function FlowBuilder() {
   const [uv, setuv] = useState([1.0, 0.0]);
   const [delta, setdelta] = useState(0.0);
   const [airfoil, setairfoil] = useState("");
+  const [mousestate, setmousestate] = useState([]);
 
   return (
     <div className="FlowBuilder">
@@ -31,6 +33,9 @@ export default function FlowBuilder() {
                 width={canvasSize[0]}
                 height={canvasSize[1]}
               />
+            </td>{" "}
+            <td rowSpan={2} width="100px" valign="bottom">
+              <FlowDisplay mousestate={mousestate} />
             </td>
             <td rowSpan={2}>
               <img src="qi.jpg" />
@@ -49,7 +54,7 @@ export default function FlowBuilder() {
             </td>
           </tr>
           <tr>
-            <td colSpan={3}>
+            <td colSpan={4}>
               <FlowCanvas
                 width={canvasSize[0]}
                 height={canvasSize[1]}
@@ -60,6 +65,7 @@ export default function FlowBuilder() {
                 iselect={selected}
                 delta={delta}
                 airfoil={airfoil}
+                setmousestate={setmousestate}
               />
             </td>
           </tr>

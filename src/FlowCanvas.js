@@ -193,7 +193,7 @@ export default function FlowCanvas(props) {
     const p =
       0.5 *
       (props.uv[0] * props.uv[0] + props.uv[1] * props.uv[1] - u * u - v * v);
-    props.setmousestate([x, y, u, v, p]);
+    props.setmousestate([x, y, u, -v, p]);
   };
 
   return (

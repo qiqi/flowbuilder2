@@ -94,7 +94,6 @@ export default function FlowCanvas(props) {
           let rad = rad0 + (Math.random() - 0.5) * dt * 4;
           let x = x0 + rad * Math.cos((j * 2 * Math.PI) / nj);
           let y = y0 + rad * Math.sin((j * 2 * Math.PI) / nj);
-          console.log(x, y);
           addParticle([x, y], (0.5 * props.vortices[i][2]) / 1000);
         }
       }

@@ -1,6 +1,6 @@
 export default function Airfoil(code) {
   if (code.toString().length == 4) {
-    const camber = parseInt(code.toString()[0]) / 10;
+    const camber = parseInt(code.toString()[0]) / 100;
     const high = parseInt(code.toString()[1]) / 10;
     const thick = parseInt(code.toString().substr(2)) / 100;
     if (isNaN(camber) || isNaN(high) || isNaN(thick)) return null;
@@ -16,8 +16,8 @@ export default function Airfoil(code) {
 
     const camberFun = (x) =>
       x <= high
-        ? ((camber * camber) / (high * high)) * (2 * high * x - x * x)
-        : ((camber * camber) / ((1 - high) * (1 - high))) *
+        ? (camber / (high * high)) * (2 * high * x - x * x)
+        : (camber / ((1 - high) * (1 - high))) *
           (1 - 2 * high + 2 * high * x - x * x);
 
     const num = 6;

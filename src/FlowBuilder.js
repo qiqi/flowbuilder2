@@ -9,14 +9,12 @@ import "./styles.css";
 export default function FlowBuilder() {
   const canvasSize = [1280, 720];
   const [selected, setSelected] = useState(0);
-  const [uv, setuv] = useState([1.0, 0.0]);
-  const [delta, setdelta] = useState(0.0);
-  const [airfoil, setairfoil] = useState("");
   const [mousestate, setmousestate] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const parseVorticesStr = (str) => {
-    if (str == null) return [[500, 0, 100, "vortex"]];
+    if (str == null || str.toString().split("~").length == 0)
+      return [[500, 0, 100, "source"]];
     else
       return str.split("~").map((vortex) => {
         const parts = vortex.split("_");
@@ -29,10 +27,38 @@ export default function FlowBuilder() {
       });
   };
 
-  let vorticesStr = searchParams.get("v");
-  const [vortices, setVortices] = useState(parseVorticesStr(vorticesStr));
-  const setVorticesAndUrl = (vortices) => {
-    setVortices(vortices);
+  let urlParams = searchParams.get("v");
+  const [vortices, setVortices] = useState(parseVorticesStr(urlParams));
+
+  const uv0 = searchParams.get("uv");
+  const [uv, setuv] = useState(
+    uv0 == null ? [1.0, 0.0] : uv0.split("_").map(parseFloat)
+  );
+
+  const delta0 = parseFloat(searchParams.get("delta"));
+  const [delta, setdelta] = useState(isNaN(delta0) ? 0.0 : delta0);
+
+  const airfoil0 = searchParams.get("airfoil");
+  const [airfoil, setairfoil] = useState(
+    airfoil0 == null ? "" : airfoil0.toString()
+  );
+
+  const setUvUrl = (val) => {
+    searchParams.set("uv", val[0].toString() + "_" + val[1].toString());
+    setSearchParams(searchParams);
+  };
+
+  const setDeltaUrl = (val) => {
+    searchParams.set("delta", val.toString());
+    setSearchParams(searchParams);
+  };
+
+  const setAirfoilUrl = (val) => {
+    searchParams.set("airfoil", val.toString());
+    setSearchParams(searchParams);
+  };
+
+  const setVorticesUrl = (val) => {
     const vortexToStr = (v) =>
       v[0].toString() +
       "_" +
@@ -40,13 +66,14 @@ export default function FlowBuilder() {
       "_" +
       v[2].toString() +
       "_" +
-      v[3];
-    let str = vortexToStr(vortices[0]);
-    for (let i = 1; i < vortices.length; ++i) {
+      v[3].toString();
+    let str = vortexToStr(val[0]);
+    for (let i = 1; i < val.length; ++i) {
       str += "~";
-      str += vortexToStr(vortices[i]);
+      str += vortexToStr(val[i]);
     }
-    setSearchParams({ v: str });
+    searchParams.set("v", str);
+    setSearchParams(searchParams);
   };
 
   return (
@@ -60,7 +87,10 @@ export default function FlowBuilder() {
             <VortexControl
               vortices={vortices}
               selected={selected}
-              setvortices={setVorticesAndUrl}
+              setvortices={(v) => {
+                setVortices(v);
+                setVorticesUrl(v);
+              }}
               setselected={setSelected}
               width={canvasSize[0]}
               height={canvasSize[1]}
@@ -77,11 +107,20 @@ export default function FlowBuilder() {
           <td>
             <FreestreamControl
               uv={uv}
-              setuv={setuv}
+              setuv={(val) => {
+                setuv(val);
+                setUvUrl(val);
+              }}
               delta={delta}
-              setdelta={setdelta}
+              setdelta={(val) => {
+                setdelta(val);
+                setDeltaUrl(val);
+              }}
               airfoil={airfoil}
-              setairfoil={setairfoil}
+              setairfoil={(val) => {
+                setairfoil(val);
+                setAirfoilUrl(val);
+              }}
             />
           </td>
         </tr>

@@ -28,7 +28,7 @@ export default function FlowCanvas(props) {
 
   const ddt = (xy) => {
     let dxdt = props.uv[0];
-    let dydt = props.uv[1];
+    let dydt = -props.uv[1];
     for (let i = 0; i < props.vortices.length; ++i) {
       let vort = props.vortices[i];
       const [x0, y0] = physicalToCanvas(vort[0], vort[1]);

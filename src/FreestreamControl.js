@@ -21,10 +21,10 @@ export default function FreestreamControl(props) {
         <input
           type="number"
           step={0.001}
-          value={-props.uv[1]}
+          value={props.uv[1]}
           onChange={(event) => {
             const v = Math.max(0, Math.min(1, event.target.value));
-            props.setuv([props.uv[0], -v]);
+            props.setuv([props.uv[0], v]);
           }}
           min={0}
           max={1}

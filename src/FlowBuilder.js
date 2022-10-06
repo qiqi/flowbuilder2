@@ -16,14 +16,13 @@ export default function FlowBuilder() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const parseVorticesStr = (str) => {
-    if (str == null)
-      return [[canvasSize[0] / 2, canvasSize[1] / 2, 100, "vortex"]];
+    if (str == null) return [[500, 0, 100, "vortex"]];
     else
       return str.split("~").map((vortex) => {
         const parts = vortex.split("_");
         return [
           parseFloat(parts[0]),
-          parseFloat(canvasSize[1] - parts[1]),
+          parseFloat(parts[1]),
           parseFloat(parts[2]),
           parts[3],
         ];
@@ -37,7 +36,7 @@ export default function FlowBuilder() {
     const vortexToStr = (v) =>
       v[0].toString() +
       "_" +
-      (canvasSize[1] - v[1]).toString() +
+      v[1].toString() +
       "_" +
       v[2].toString() +
       "_" +

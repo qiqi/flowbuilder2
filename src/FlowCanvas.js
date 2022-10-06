@@ -9,6 +9,16 @@ export default function FlowCanvas(props) {
   const canvasRef = useRef(null);
   const dt = 1.5;
 
+  const physicalToCanvas = (x, y) => [
+    (0.15 + (parseFloat(x) / 1000) * 0.7) * props.width,
+    0.5 * props.height - (parseFloat(y) / 1000) * 0.7 * props.width,
+  ];
+
+  const canvasToPhysical = (x, y) => [
+    ((x / props.width - 0.15) / 0.7) * 1000,
+    ((0.5 * props.height - y) / (0.7 * props.width)) * 1000,
+  ];
+
   const addParticle = (xy, delta) => {
     particles.push([
       xy[0] + delta * (Math.random() - 0.5),
@@ -21,8 +31,9 @@ export default function FlowCanvas(props) {
     let dydt = props.uv[1];
     for (let i = 0; i < props.vortices.length; ++i) {
       let vort = props.vortices[i];
-      let dx = (xy[0] - vort[0]) / 100;
-      let dy = (xy[1] - vort[1]) / 100;
+      const [x0, y0] = physicalToCanvas(vort[0], vort[1]);
+      let dx = (xy[0] - x0) / 100;
+      let dy = (xy[1] - y0) / 100;
       let r2 = dx * dx + dy * dy;
       if (vort[3] == "source") {
         dxdt += (vort[2] * dx) / 100 / r2;
@@ -58,8 +69,10 @@ export default function FlowCanvas(props) {
     );
     for (let i = 0; i < props.vortices.length; ++i) {
       if (props.vortices[i][3] == "source" && props.vortices[i][2] < 0) {
-        const x0 = parseInt(props.vortices[i][0]);
-        const y0 = parseInt(props.vortices[i][1]);
+        const [x0, y0] = physicalToCanvas(
+          props.vortices[i][0],
+          props.vortices[i][1]
+        );
         particles = particles.filter((xy) => {
           let dx = xy[0] - x0;
           let dy = xy[1] - y0;
@@ -86,8 +99,10 @@ export default function FlowCanvas(props) {
     }
     for (let i = 0; i < props.vortices.length; ++i) {
       if (props.vortices[i][3] == "source" && props.vortices[i][2] > 0) {
-        const x0 = parseInt(props.vortices[i][0]);
-        const y0 = parseInt(props.vortices[i][1]);
+        const [x0, y0] = physicalToCanvas(
+          props.vortices[i][0],
+          props.vortices[i][1]
+        );
         let nj = Math.ceil((props.vortices[i][2] * 2.07) / props.spacing) * 3;
         let rad0 = props.vortices[i][2] * 0.1 * dt;
         for (let j = 0; j < nj; ++j) {
@@ -106,30 +121,30 @@ export default function FlowCanvas(props) {
 
   const drawVortices = (ctx) => {
     for (let i = 0; i < props.vortices.length; ++i) {
-      const xy = [
-        parseInt(props.vortices[i][0]),
-        parseInt(props.vortices[i][1]),
-      ];
+      const [x0, y0] = physicalToCanvas(
+        props.vortices[i][0],
+        props.vortices[i][1]
+      );
       if (props.iselect == i) {
         ctx.strokeStyle = "#880000";
 
         ctx.beginPath();
-        ctx.moveTo(xy[0], Math.max(1, xy[1] - 15));
-        ctx.lineTo(xy[0], Math.min(props.height, xy[1] + 15));
+        ctx.moveTo(x0, Math.max(1, y0 - 15));
+        ctx.lineTo(x0, Math.min(props.height, y0 + 15));
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(Math.max(1, xy[0] - 15), xy[1]);
-        ctx.lineTo(Math.min(props.width, xy[0] + 15), xy[1]);
+        ctx.moveTo(Math.max(1, x0 - 15), y0);
+        ctx.lineTo(Math.min(props.width, x0 + 15), y0);
         ctx.stroke();
 
         ctx.fillStyle = "#880000";
         ctx.beginPath();
-        ctx.arc(xy[0], xy[1], 3, 0, 2 * Math.PI);
+        ctx.arc(x0, y0, 3, 0, 2 * Math.PI);
       } else {
         ctx.fillStyle = "#008800";
         ctx.beginPath();
-        ctx.arc(xy[0], xy[1], 3, 0, 2 * Math.PI);
+        ctx.arc(x0, y0, 3, 0, 2 * Math.PI);
       }
       ctx.fill();
     }
@@ -189,10 +204,11 @@ export default function FlowCanvas(props) {
     const x = (event.clientX - rect.left) * scaleX;
     const y = (event.clientY - rect.top) * scaleY;
     const [u, v] = ddt([x, y]);
+    const [xp, yp] = canvasToPhysical(x, y);
     const p =
       0.5 *
       (props.uv[0] * props.uv[0] + props.uv[1] * props.uv[1] - u * u - v * v);
-    props.setmousestate([x, y, u, -v, p]);
+    props.setmousestate([xp, yp, u, -v, p]);
   };
 
   const click = (event) => {

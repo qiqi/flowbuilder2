@@ -2,26 +2,29 @@ import { useEffect, useRef } from "react";
 import "./styles.css";
 
 export default function VortexControl(props) {
-  const changex = (event) => {
+  const changeVortexFloat = (event, callback) => {
     let vortices = [...props.vortices];
-    vortices[props.selected][0] = event.target.value;
-    props.setvortices(vortices);
+    const newVal = parseFloat(event.target.value);
+    if (!isNaN(newVal)) {
+      callback(vortices[props.selected], newVal);
+      props.setvortices(vortices);
+    }
   };
 
-  const changey = (event) => {
-    let vortices = [...props.vortices];
-    vortices[props.selected][1] = props.height - event.target.value;
-    props.setvortices(vortices);
-  };
+  const changex = (event) =>
+    changeVortexFloat(event, (vortex, val) => {
+      vortex[0] = val;
+    });
 
-  const changeStrength = (event) => {
-    let vortices = [...props.vortices];
-    vortices[props.selected][2] = Math.max(
-      -100,
-      Math.min(100, event.target.value)
-    );
-    props.setvortices(vortices);
-  };
+  const changey = (event) =>
+    changeVortexFloat(event, (vortex, val) => {
+      vortex[1] = val;
+    });
+
+  const changeStrength = (event) =>
+    changeVortexFloat(event, (vortex, val) => {
+      vortex[2] = val;
+    });
 
   const changeType = (event) => {
     let vortices = [...props.vortices];
@@ -70,18 +73,18 @@ export default function VortexControl(props) {
                   type="number"
                   value={vortex[0]}
                   onChange={changex}
-                  min={0}
-                  max={props.width}
+                  min={-500}
+                  max={1500}
                   readOnly={iVortex != props.selected}
                 />
               </td>
               <td>
                 <input
                   type="number"
-                  value={props.height - vortex[1]}
+                  value={vortex[1]}
                   onChange={changey}
-                  min={0}
-                  max={props.height}
+                  min={-500}
+                  max={500}
                   readOnly={iVortex != props.selected}
                 />
               </td>
